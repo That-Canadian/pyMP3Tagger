@@ -33,14 +33,39 @@ class LastFMScraper:
          #should check r.status_code for 200
          #Make sure we actually got a match back
         if r.json()['results']['trackmatches'] != '\n':
-            id = r.json()['results']['trackmatches']['track']['mbid']
+            tID = r.json()['results']['trackmatches']['track']['mbid']
         else:
             return None
             
-        r = self._request('track.getInfo',id)
-        data = r.json()['track']
+        r = self._request('track.getInfo',tID)
+        tData = r.json()['track']
+        #get the track, artist, and album
+        if(r.status_code==200):
+            alID = tData['album']['mbid'] #Album mbid
+            arID = tData['artist']['mbid'] #Artist mbid
+        else:
+            return -1 #URL error
         
-        return Track(data['name'], data['artist']['name'], data['album']['title'], id) #will be re-written, testing for now
+        r = self._request('album.getInfo', alID) #Get album json page
+        
+        if(r.status_code == 200): #Now get the album json info
+            alData = r.json()['album']
+        else:
+            return -1 #URL error
+            
+        r = self._request('artist.getInfo', arID) #Get artist json page
+        
+        if(r.status_code == 200): #Now get the artist json info
+            arData = r.json()['artist']
+        else:
+            return -1 #URL error
+        
+        tmpArt = Artist(arData['name'], arID)
+        
+        tmpAlb = Album(alData['name'], tmpArt, alData['releasedate'], alID)
+        
+        
+        return Track(tData['name'], tmpArt, tmpAlb, tID) #will be re-written, testing for now
     
 class Track:
 
@@ -56,13 +81,17 @@ class Track:
         
 class Artist:
 
-    def __init__(self, name, uri):
+    def __init__(self, name, id=None):
         self.name = name
-        self.uri = uri
+        self.id = id
 
         
 class Album:        
         
-        def __init__(self, title, artist, uri=None):
+        def __init__(self, title, artist, year, id):
             self.title = title
+            self.artist = artist
+            self.year = year
+            self.id = id
+            
             
