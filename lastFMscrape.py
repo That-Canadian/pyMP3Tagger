@@ -2,6 +2,9 @@
 
 import requests
 import string
+import sys
+
+
 
 class LastFMScraper:
     
@@ -77,7 +80,7 @@ class Track:
         
     #string method, for debugging
     def __str__(self):
-        return "Title: %s\nArtist: %s\nAlbum: %s\nID: %s" % (self.title, self.artist, self.album, self.id)
+        return "Title: %s\nArtist: %s\nAlbum: %s\nMBID: %s" % (self.title, self.artist.name, self.album.title, self.id)
         
 class Artist:
 
@@ -94,4 +97,16 @@ class Album:
             self.year = year
             self.id = id
             
-            
+def main(argv): #main function, to be called if __name__ == __main__, takes in arguments argv
+    if len(argv) < 3:
+        sys.stderr.write('Usage: %s "Artist" "Song Name"' % argv[0])
+        return 1
+    
+    scraper = LastFMScraper('416629e370d22d15a6f484fce67b3d9e')
+    
+    track = scraper.getTrack(argv[2], argv[1])
+    print "\nTrack Info : \n"
+    print track
+    
+    
+if __name__ == '__main__' : sys.exit(main(sys.argv)) #calls main then exits
