@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
 
+import sys
 from mutagen.mp3 import MP3	#I do not think I actually use this, use id3 instead
 from mutagen.id3 import ID3, error, APIC
 #from sys import stdin
@@ -8,15 +9,13 @@ from mutagen.id3 import ID3, error, APIC
 class Music:
 	#initialization, store variable as result of ID3() to be get/set
 	def __init__(self, thesong):	#need to figure out file input
-		self.song = thesong
-		#mus = ID3(song)
+		self.song = ID3(thesong)
 	
 	"""following 5 methods are get methods retrieving values stored in ID3 tags in the already specified file"""
 	#get title of song
 	def getTitle(self):
 		if song['TIT2'].text[0] == '':
-			#print("No Data Available")
-			return None
+			return "No title found"
 		else:
 			return song['TIT2'].text[0]	
 
@@ -136,10 +135,20 @@ class Music:
 			return True
 		else:
 			return False
-"""
 
-"""SIDE NOTES: NEED TO BE REMOVED BEFORE FINAL PUSH
+
+SIDE NOTES: NEED TO BE REMOVED BEFORE FINAL PUSH
 from sys import stdin
 a = Music('song.mp3')
 print(a.getTitle(stdin))
 """
+
+def main(argv):
+	test = Music(argv)
+
+	title = test.getTitle()
+	#test2 = test.getArtist()
+	#test3 = test.
+	print title
+
+#if __name__ == '__main__' : sys.exit(main(sys.argv)) #calls main then exits
