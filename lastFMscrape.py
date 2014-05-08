@@ -39,7 +39,9 @@ class LastFMScraper:
             tID = r.json()['results']['trackmatches']['track']['mbid']
         else:
             return None
-            
+        
+        if tID == '' : return None #if we didnt get a mbid, sometimes happens from lastFM for remixed/re-did tracks
+        
         r = self._request('track.getInfo',tID)
         tData = r.json()['track']
         #get the track, artist, and album
@@ -65,6 +67,7 @@ class LastFMScraper:
         
         tmpArt = Artist(arData['name'], arID)
         
+        #image exists at alData['image'][1]['#text'] for medium size, implement later
         tmpAlb = Album(alData['name'], tmpArt, alData['releasedate'], alID)
         
         
@@ -80,7 +83,7 @@ class Track:
         
     #string method, for debugging
     def __str__(self):
-        return "Title: %s\nArtist: %s\nAlbum: %s\nMBID: %s" % (self.title, self.artist.name, self.album.title, self.id)
+        return "Title: %s\nArtist: %s\n%s\nMBID: %s" % (self.title, self.artist.name, self.album, self.id)
         
 class Artist:
 
@@ -91,11 +94,16 @@ class Artist:
         
 class Album:        
         
-        def __init__(self, title, artist, year, id):
+        #image exists at alData['image'][1]['#text'] for medium size
+        def __init__(self, title, artist, year, id): #add image later
             self.title = title
             self.artist = artist
-            self.year = year
+            #below removes everything past the first comma, and strips the leading and trailing whitespace from the year, if present
+            self.year = year.split(',', 1)[0].strip()
             self.id = id
+            pyth
+        def __str__(self):
+            return "Album: %s\nYear: %s" % (self.title, self.year)
             
 def main(argv): #main function, to be called if __name__ == __main__, takes in arguments argv
     if len(argv) < 3:
