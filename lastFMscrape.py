@@ -107,7 +107,7 @@ class Album:
             
 def main(argv): #main function, to be called if __name__ == __main__, takes in arguments argv
     if len(argv) < 3:
-        sys.stderr.write('Usage: %s "Artist" "Song Name"' % argv[0])
+        sys.stderr.write('Usage: %s "Artist" "Song Name"\n' % argv[0])
         return 1
     
     scraper = LastFMScraper('416629e370d22d15a6f484fce67b3d9e')
