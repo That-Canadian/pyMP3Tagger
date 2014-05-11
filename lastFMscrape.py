@@ -101,7 +101,6 @@ class Album:
             #below removes everything past the first comma, and strips the leading and trailing whitespace from the year, if present
             self.year = year.split(',', 1)[0].strip()
             self.id = id
-            pyth
         def __str__(self):
             return "Album: %s\nYear: %s" % (self.title, self.year)
             

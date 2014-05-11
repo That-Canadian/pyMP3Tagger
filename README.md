@@ -1,12 +1,12 @@
 pyMP3Tagger
 ===========
-
+Done in python 2.7.6 <br>
 Final project for UNIX class, scrapes missing MP3 tags from Last.fm, takes in a single MP3 file
 or folder/directory, and goes through all files. (Final functionality still in progress)
 
 <more>
 Dependencies:
-Requests - http://docs.python-requests.org/en/latest/# <br>
+Requests - http://docs.python-requests.org/en/latest/user/install/#install <br>
 Mutagen - https://pypi.python.org/pypi/mutagen/1.22
 
 Usage:
