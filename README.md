@@ -7,17 +7,14 @@ or folder/directory, and goes through all files. (Final functionality still in p
 <more>
 Dependencies:
 Requests - http://docs.python-requests.org/en/latest/user/install/#install <br>
-Mutagen - https://pypi.python.org/pypi/mutagen/1.22
+Mutagen - https://pypi.python.org/pypi/mutagen/1.22<br>
 
-
-Usage:
-
+Usage:<br>
 lastFMscrape.py : This file may be ran standalone taking in 2 command line arguments, artist name, then song, both surrounded in double quotes
 it will then print to console the track information.<br>
 Ex:<br>
-python lastFMscrape.py "Artist" "Song"
-
-
+python lastFMscrape.py "Artist" "Song"<br>
+<br>
 mp3tag.py: This file may be ran standalone initializing a class taking in the file name. Methods can then be
 run requesting various ID3 tags. Set methods can also be run to set these methods.
 Current deployment in mp3tag: mp3tag.py can read the title, artist, album, release year
