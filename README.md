@@ -19,7 +19,7 @@ mp3tag.py: This file may be ran standalone initializing a class taking in the fi
 run requesting various ID3 tags. Set methods can also be run to set these methods.
 Current deployment in mp3tag: mp3tag.py can read the title, artist, album, release year
 CURRENT EXAMPLE: <br>
-$ ./mp3tag.py song.mp3 <br>
+$ python mp3tag.py song.mp3 <br>
 [u'songtitle'] <br>
 [u'artistname'] <br>
 [u'albumname'] <br>

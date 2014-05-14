@@ -1,16 +1,20 @@
-"""
-Version 0.2
-
-UPDAT: Switched to EasyID3 implementation
-REASON: signficantly easier to use
-
-"""
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
 
+"""
+Version 0.2
+UPDATE: Switched to EasyID3 implementation
+REASON: signficantly easier to use
+
+"""
+
 import sys, os
-import mutagen
-from mutagen.easyid3 import EasyID3
+try:
+	import mutagen
+	from mutagen.easyid3 import EasyID3
+	from mutagen.id3 import ID3NoHeaderError
+except:
+	print "Please install mutagen before running this program. See README for more details"
 
 class Music:
 	#intialization, store variable as result of ID3() to be get/set
@@ -24,7 +28,11 @@ class Music:
 	"""following 5 methods are get methods retrieving values stored in ID3 tags in the already specified file"""
 	#get title of song
 	def getTitle(self):
-		print self.song["title"]
+		try: 
+			tag = self.song["title"]
+		except KeyError:
+			return None
+		return tag
 	"""get name of artist
 			*
 			*TPE1 is the lead performer/soloist tag
@@ -32,25 +40,29 @@ class Music:
 			*FUTURE IMPROVEMENTS: May add TOPE, searching for either TPE1 or original artist/performer
 			*pseudo code is already present and commented out
 	"""
-	def getArtist(self):	# or TOPE
-		print self.song["artist"]
+	def getArtist(self):
+		try: 
+			tag = self.song["artist"]
+		except KeyError:
+			return None
+		return tag
 
 	#get the name of the album
 	def getAlbum(self):
-		print self.song["album"]
+		try: 
+			tag = self.song["album"]
+		except KeyError:
+			return None
+		return tag
 
 	#get the track number
 	def getAlbumYear(self):
-		print self.song["date"]
+		try: 
+			tag = self.song["albumyear"]
+		except KeyError:
+			return None
+		return tag
 	
-	"""get the album art
-	Does not currently work
-
-	Do not use
-	"""
-	def getAA(self):					#returns boolean whether there is or is not album art already on the file. 
-		print self.song["albumartistsort"]
-
 	"""setTitle
 			*stores the title for the already specified file
 			*
@@ -112,12 +124,6 @@ class Music:
 			return True
 		else:
 			return False
-
-
-SIDE NOTES: NEED TO BE REMOVED BEFORE FINAL PUSH
-from sys import stdin
-a = Music('song.mp3')
-print(a.getTitle(stdin))
 """
 
 def main(argv):
@@ -125,13 +131,27 @@ def main(argv):
 		sys.stderr.write('Usage %s "music file"' % argv[0])
 		return 1
 	test = Music(argv[1])
-#	test.setTitle("An song that never existed")
-	test.getTitle()
+	print "Title: %s \n Artist: %s \n Album: %s \n Year: %s \n" % (test.getTitle(), test.getArtist(), test.getAlbum(), test.getAlbumYear())
 	
-	test.getArtist()
-	test.getAlbum()
-	test.getAlbumYear()
+	#test.getTitle()
+	#test.getArtist()
+	#test.getAlbum()
+	#test.getAlbumYear()
 	#test.getAA()
 	
 if __name__ == '__main__' : 
 	sys.exit(main(sys.argv)) #calls main then exits
+
+
+	"""get the album art
+	Does not currently work
+
+	Do not use
+	
+	def getAA(self):					#returns boolean whether there is or is not album art already on the file. 
+		try: 
+			tag = self.song["title"]
+		except KeyError:
+			return None
+		return tag
+"""
